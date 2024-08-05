@@ -1,5 +1,5 @@
-// src/components/ProductList.jsx
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { graphQLClient } from "../api";
 import "./ProductList.css";
 
@@ -43,20 +43,29 @@ const ProductList = () => {
     <div>
       <h1>Products</h1>
       <div className="product-list">
-        {products.map((product) => (
-          <div key={product.node.id} className="product-card">
-            {product.node.images.edges.length > 0 && (
-              <img
-                src={product.node.images.edges[0].node.src}
-                alt={product.node.title}
-                className="product-image"
-              />
-            )}
-            <div className="product-details">
-              <h2 className="product-title">{product.node.title}</h2>
-            </div>
-          </div>
-        ))}
+        {products.map((product) => {
+          const productId = product.node.id.split("/").pop(); // Extraer solo el ID numérico
+          return (
+            <Link
+              key={productId}
+              to={`/product/${productId}`}
+              className="product-card-link"
+            >
+              <div className="product-card">
+                {product.node.images.edges.length > 0 && (
+                  <img
+                    src={product.node.images.edges[0].node.src}
+                    alt={product.node.title}
+                    className="product-image"
+                  />
+                )}
+                <div className="product-details">
+                  <h2 className="product-title">{product.node.title}</h2>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

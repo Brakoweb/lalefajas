@@ -1,0 +1,27 @@
+.product {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.product-images {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.product-images img {
+  width: 100%;
+  max-width: 200px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.product h1 {
+  margin-bottom: 20px;
+}
+
+.product p {
+  font-size: 1.2em;
+}
