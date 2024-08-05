@@ -1,0 +1,47 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(192, 192, 65);
+  color: black;
+}
+
+.nav-logo a {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  font-size: 1.5em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+.menu-button {
+  display: none;
+}
+
+.menu-items {
+  width: 250px;
+}
+
+.menu-items a {
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .menu-button {
+    display: block;
+  }
+}

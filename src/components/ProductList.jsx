@@ -41,8 +41,8 @@ const ProductList = () => {
 
   return (
     <div>
-      <h1>Products</h1>
       <div className="product-list">
+        <h1>Catalogo</h1>
         {products.map((product) => {
           const productId = product.node.id.split("/").pop(); // Extraer solo el ID numérico
           return (

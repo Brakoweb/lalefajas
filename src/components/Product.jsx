@@ -58,11 +58,13 @@ const Product = () => {
           <img key={index} src={image.node.src} alt={product.title} />
         ))}
       </div>
-      <p>{product.description}</p>
-      <p>
-        Price: {product.priceRange.minVariantPrice.amount}{" "}
-        {product.priceRange.minVariantPrice.currencyCode}
-      </p>
+      <div className="product-description">
+        <p>{product.description}</p>
+        <p>
+          Price: {product.priceRange.minVariantPrice.amount}{" "}
+          {product.priceRange.minVariantPrice.currencyCode}
+        </p>
+      </div>
     </div>
   );
 };
