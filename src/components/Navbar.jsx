@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import {
   AppBar,
@@ -10,10 +10,13 @@ import {
   ListItemText,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { CartContext } from "../context/CartContext";
 import "./Navbar.css";
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { cart } = useContext(CartContext);
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -45,6 +48,9 @@ const Navbar = () => {
         <ListItem button component={Link} to="/about">
           <ListItemText primary="Acerca de Lale" />
         </ListItem>
+        <ListItem button component={Link} to="/cart">
+          <ListItemText primary={`Cart (${cart.length})`} />
+        </ListItem>
       </List>
     </div>
   );
@@ -61,6 +67,12 @@ const Navbar = () => {
             <Link to="/products">Catalogo</Link>
             <Link to="/about">About</Link>
             <Link to="/contact">Contact</Link>
+            <Link to="/cart" className="cart-icon">
+              <ShoppingCartIcon />
+              {cart.length > 0 && (
+                <span className="cart-count">{cart.length}</span>
+              )}
+            </Link>
           </div>
           <IconButton
             edge="end"
