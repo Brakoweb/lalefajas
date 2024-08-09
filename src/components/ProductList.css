@@ -5,6 +5,11 @@
   justify-content: center;
 }
 
+h1 {
+  color: #ddd;
+  text-align: center;
+}
+
 .product-list h1 {
   color: #ddd;
 }

@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { graphQLClient } from "../api";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./Product.css";
 
 const query = `
@@ -53,10 +55,15 @@ const Product = () => {
   return (
     <div className="product">
       <h1>{product.title}</h1>
-      <div className="product-images">
-        {product.images.edges.map((image, index) => (
-          <img key={index} src={image.node.src} alt={product.title} />
-        ))}
+
+      <div className="product-carousel">
+        <Carousel showArrows={true} showThumbs={false} infiniteLoop={true}>
+          {product.images.edges.map((image, index) => (
+            <div key={index}>
+              <img src={image.node.src} alt={product.title} />
+            </div>
+          ))}
+        </Carousel>
       </div>
       <div className="product-description">
         <p>{product.description}</p>

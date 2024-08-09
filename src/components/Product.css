@@ -1,7 +1,15 @@
 .product {
-  padding: 20px;
   margin: 0 auto;
   width: 100%;
+}
+
+.product-carousel {
+  margin-bottom: 20px;
+}
+
+.product-carousel img {
+  max-height: 500px;
+  object-fit: scale-down;
 }
 
 .product-description {
