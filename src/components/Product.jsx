@@ -1,4 +1,3 @@
-// src/components/Product.jsx
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { graphQLClient } from "../api";
@@ -40,7 +39,6 @@ const Product = () => {
       try {
         const variables = { id: `gid://shopify/Product/${id}` }; // Reconstruir el ID completo
         const data = await graphQLClient.request(query, variables);
-        console.log("Product data:", data);
         setProduct(data.product);
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -69,7 +67,7 @@ const Product = () => {
       <h1>{product.title}</h1>
 
       <div className="product-carousel">
-        <Carousel showArrows={true} showThumbs={false} infiniteLoop={true}>
+        <Carousel showArrows={true} showThumbs={true} infiniteLoop={true}>
           {product.images.edges.map((image, index) => (
             <div key={index}>
               <img src={image.node.src} alt={product.title} />
