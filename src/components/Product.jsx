@@ -25,6 +25,26 @@ const query = `
           currencyCode
         }
       }
+      variants(first: 10) {
+        edges {
+          node {
+            id
+            title
+            availableForSale
+            selectedOptions {
+              name
+              value
+            }
+            price {
+              amount
+              currencyCode
+            }
+            image {
+              src
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -32,6 +52,7 @@ const query = `
 const Product = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [selectedVariant, setSelectedVariant] = useState(null);
   const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
@@ -40,6 +61,9 @@ const Product = () => {
         const variables = { id: `gid://shopify/Product/${id}` }; // Reconstruir el ID completo
         const data = await graphQLClient.request(query, variables);
         setProduct(data.product);
+        if (data.product.variants.edges.length > 0) {
+          setSelectedVariant(data.product.variants.edges[0].node);
+        }
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -52,15 +76,33 @@ const Product = () => {
     return <div>Loading...</div>;
   }
 
-  const handleAddToCart = () => {
-    addToCart({
-      id: product.id,
-      title: product.title,
-      price: product.priceRange.minVariantPrice.amount,
-      currency: product.priceRange.minVariantPrice.currencyCode,
-      image: product.images.edges[0]?.node.src,
-    });
+  const handleVariantChange = (optionName, value) => {
+    const variant = product.variants.edges.find((variant) =>
+      variant.node.selectedOptions.every(
+        (option) =>
+          (option.name === optionName && option.value === value) ||
+          option.name !== optionName
+      )
+    );
+    setSelectedVariant(variant.node);
   };
+
+  const handleAddToCart = () => {
+    if (selectedVariant) {
+      addToCart({
+        id: selectedVariant.id,
+        title: `${product.title} (${selectedVariant.title})`,
+        price: selectedVariant.price.amount,
+        currency: selectedVariant.price.currencyCode,
+        image: selectedVariant.image?.src || product.images.edges[0]?.node.src,
+        quantity: 1,
+      });
+    }
+  };
+
+  if (!product || !selectedVariant) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="product">
@@ -68,19 +110,57 @@ const Product = () => {
 
       <div className="product-carousel">
         <Carousel showArrows={true} showThumbs={true} infiniteLoop={true}>
-          {product.images.edges.map((image, index) => (
-            <div key={index}>
-              <img src={image.node.src} alt={product.title} />
-            </div>
-          ))}
+          {selectedVariant.image ? (
+            <img src={selectedVariant.image.src} alt={product.title} />
+          ) : (
+            product.images.edges.map((image, index) => (
+              <div key={index}>
+                <img src={image.node.src} alt={product.title} />
+              </div>
+            ))
+          )}
         </Carousel>
       </div>
       <div className="product-description">
         <p>{product.description}</p>
         <p>
-          Price: {product.priceRange.minVariantPrice.amount}{" "}
-          {product.priceRange.minVariantPrice.currencyCode}
+          Price: {selectedVariant.price.amount}{" "}
+          {selectedVariant.price.currencyCode}
         </p>
+        <div className="product-variants">
+          {product.variants.edges[0].node.selectedOptions.map((option) => (
+            <div key={option.name}>
+              <label>{option.name}:</label>
+              <select
+                value={
+                  selectedVariant.selectedOptions.find(
+                    (o) => o.name === option.name
+                  ).value
+                }
+                onChange={(e) =>
+                  handleVariantChange(option.name, e.target.value)
+                }
+              >
+                {[
+                  ...new Set(
+                    product.variants.edges
+                      .map(
+                        (variant) =>
+                          variant.node.selectedOptions.find(
+                            (o) => o.name === option.name
+                          )?.value
+                      )
+                      .filter((v) => v !== undefined)
+                  ),
+                ].map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ))}
+        </div>
         <button onClick={handleAddToCart}>Add to Cart</button>
       </div>
     </div>
