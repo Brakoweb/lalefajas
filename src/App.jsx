@@ -5,6 +5,7 @@ import ProductList from "./components/ProductList";
 import Product from "./components/Product";
 import Cart from "./components/Cart";
 import { CartProvider } from "./context/CartContext";
+import OrderConfirmation from "./components/OrderConfirmation";
 
 const App = () => {
   return (
@@ -16,7 +17,7 @@ const App = () => {
           <Route path="/product/:id" element={<Product />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/products" element={<ProductList />} />
-          {/* Placeholder routes for demonstration */}
+          <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/about" element={<div>About Us</div>} />
           <Route path="/contact" element={<div>Contact</div>} />
         </Routes>
