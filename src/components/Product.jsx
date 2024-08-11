@@ -12,7 +12,7 @@ const query = `
       id
       title
       description
-      images(first: 3) {
+      images(first: 50) {
         edges {
           node {
             src
@@ -25,7 +25,7 @@ const query = `
           currencyCode
         }
       }
-      variants(first: 10) {
+      variants(first: 100) {
         edges {
           node {
             id
@@ -77,14 +77,28 @@ const Product = () => {
   }
 
   const handleVariantChange = (optionName, value) => {
+    if (!product) return;
+
+    // Copiamos las opciones seleccionadas actuales
+    const selectedOptions = selectedVariant.selectedOptions.map((option) => {
+      if (option.name === optionName) {
+        return { ...option, value };
+      }
+      return option;
+    });
+
+    // Encontramos la variante que coincide con las opciones seleccionadas
     const variant = product.variants.edges.find((variant) =>
       variant.node.selectedOptions.every(
         (option) =>
-          (option.name === optionName && option.value === value) ||
-          option.name !== optionName
+          selectedOptions.find((selected) => selected.name === option.name)
+            ?.value === option.value
       )
     );
-    setSelectedVariant(variant.node);
+
+    if (variant) {
+      setSelectedVariant(variant.node);
+    }
   };
 
   const handleAddToCart = () => {
