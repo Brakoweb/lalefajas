@@ -39,3 +39,11 @@
 .product p {
   font-size: 1.2em;
 }
+
+.out-of-stock {
+  color: red;
+  font-size: 1.2em;
+  margin-top: 20px;
+  font-weight: bold;
+  text-align: center;
+}

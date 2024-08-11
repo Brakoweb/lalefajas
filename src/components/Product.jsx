@@ -175,7 +175,11 @@ const Product = () => {
             </div>
           ))}
         </div>
-        <button onClick={handleAddToCart}>Add to Cart</button>
+        {!selectedVariant.availableForSale ? (
+          <p className="out-of-stock">Agotado</p>
+        ) : (
+          <button onClick={handleAddToCart}>Add to Cart</button>
+        )}
       </div>
     </div>
   );
