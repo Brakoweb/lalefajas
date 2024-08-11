@@ -4,12 +4,13 @@ import { graphQLClient } from "../api";
 import "./ProductList.css";
 
 const query = `
-  {
-    products(first: 10) {
+  query($first: Int!, $after: String) {
+    products(first: $first, after: $after) {
       edges {
         node {
           id
           title
+          description
           images(first: 1) {
             edges {
               node {
@@ -18,6 +19,11 @@ const query = `
             }
           }
         }
+        cursor
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
       }
     }
   }
@@ -25,48 +31,80 @@ const query = `
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
+  const [cursor, setCursor] = useState(null);
+  const [hasNextPage, setHasNextPage] = useState(true);
+
+  const fetchProducts = async (cursor = null) => {
+    try {
+      const variables = { first: 10, after: cursor };
+      const data = await graphQLClient.request(query, variables);
+
+      const newProducts = data.products.edges.map((edge) => edge.node);
+
+      setProducts((prevProducts) => {
+        // Eliminar productos duplicados basados en ID
+        const uniqueProducts = [
+          ...prevProducts,
+          ...newProducts.filter(
+            (newProduct) =>
+              !prevProducts.some(
+                (existingProduct) => existingProduct.id === newProduct.id
+              )
+          ),
+        ];
+        return uniqueProducts;
+      });
+
+      setCursor(data.products.pageInfo.endCursor);
+      setHasNextPage(data.products.pageInfo.hasNextPage);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await graphQLClient.request(query);
-        setProducts(data.products.edges);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
     fetchProducts();
   }, []);
+
+  const loadMore = () => {
+    if (hasNextPage) {
+      fetchProducts(cursor);
+    }
+  };
 
   return (
     <div>
       <h1>Products</h1>
       <div className="product-list">
         {products.map((product) => {
-          const productId = product.node.id.split("/").pop(); // Extraer solo el ID numérico
+          const productId = product.id.split("/").pop(); // Extraer solo el ID numérico
           return (
             <Link
               key={productId}
               to={`/product/${productId}`}
-              className="product-card-link"
+              className="product-link"
             >
               <div className="product-card">
-                {product.node.images.edges.length > 0 && (
+                {product.images.edges.length > 0 && (
                   <img
-                    src={product.node.images.edges[0].node.src}
-                    alt={product.node.title}
+                    src={product.images.edges[0].node.src}
+                    alt={product.title}
                     className="product-image"
                   />
                 )}
                 <div className="product-details">
-                  <h2 className="product-title">{product.node.title}</h2>
+                  <h2 className="product-title">{product.title}</h2>
                 </div>
               </div>
             </Link>
           );
         })}
       </div>
+      {hasNextPage && (
+        <button onClick={loadMore} className="load-more-button">
+          Load More
+        </button>
+      )}
     </div>
   );
 };

@@ -52,3 +52,21 @@ a:hover {
   margin: 0;
   text-align: center;
 }
+
+.load-more-button {
+  background-color: #ddd;
+  color: rgb(0, 0, 0);
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin: 20px 0;
+  display: block;
+  width: 200px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.load-more-button:hover {
+  background-color: #0056b3;
+}
