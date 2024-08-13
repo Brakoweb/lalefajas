@@ -18,11 +18,11 @@ const Slideshow = () => {
         <p className="legend">50% Off on All Items!</p>
       </div>
       <div>
-        <img src="/Slideshow/offer1.jpg" alt="Offer 2" />
+        <img src="/Slideshow/offer2.jpg" alt="Offer 2" />
         <p className="legend">Buy One Get One Free!</p>
       </div>
       <div>
-        <img src="/Slideshow/offer1.jpg" alt="Offer 3" />
+        <img src="/Slideshow/offer3.jpg" alt="Offer 3" />
         <p className="legend">Free Shipping on Orders Over $100!</p>
       </div>
     </Carousel>
