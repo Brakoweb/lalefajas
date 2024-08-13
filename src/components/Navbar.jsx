@@ -15,8 +15,10 @@ import { CartContext } from "../context/CartContext";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const { cart } = useContext(CartContext);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -36,19 +38,19 @@ const Navbar = () => {
       className="menu-items"
     >
       <List>
-        <ListItem button component={Link} to="/">
+        <ListItem component={Link} to="/">
           <ListItemText primary="Inicio" />
         </ListItem>
-        <ListItem button component={Link} to="/products">
+        <ListItem component={Link} to="/products">
           <ListItemText primary="Catalogo" />
         </ListItem>
-        <ListItem button component={Link} to="/contact">
+        <ListItem component={Link} to="/contact">
           <ListItemText primary="Contactame" />
         </ListItem>
-        <ListItem button component={Link} to="/about">
+        <ListItem component={Link} to="/about">
           <ListItemText primary="Acerca de Lale" />
         </ListItem>
-        <ListItem button component={Link} to="/cart">
+        <ListItem component={Link} to="/cart">
           <ListItemText primary={`Cart (${cart.length})`} />
         </ListItem>
       </List>
@@ -60,32 +62,34 @@ const Navbar = () => {
       <AppBar position="static">
         <Toolbar className="navbar">
           <div className="nav-logo">
-            <Link to="/">LaleFajas</Link>
+            <Link to="/">
+              <img
+                src="https://lalefajas.com/cdn/shop/files/Recurso_7.png"
+                alt="Logo"
+                className="logo-image"
+              />
+            </Link>
           </div>
-          <div className="nav-links">
-            <Link to="/">Home</Link>
-            <Link to="/products">Catalogo</Link>
-            <Link to="/about">About</Link>
-            <Link to="/contact">Contact</Link>
+          <div className="nav-icons">
             <Link to="/cart" className="cart-icon">
               <ShoppingCartIcon />
               {cart.length > 0 && (
-                <span className="cart-count">{cart.length}</span>
+                <span className="cart-count">{totalItems}</span>
               )}
             </Link>
+            <IconButton
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+              onClick={toggleDrawer(true)}
+              className="menu-button"
+            >
+              <MenuIcon />
+            </IconButton>
           </div>
-          <IconButton
-            edge="end"
-            color="inherit"
-            aria-label="menu"
-            onClick={toggleDrawer(true)}
-            className="menu-button"
-          >
-            <MenuIcon />
-          </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer anchor="top" open={drawerOpen} onClose={toggleDrawer(false)}>
+      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
         {menuItems}
       </Drawer>
     </>
