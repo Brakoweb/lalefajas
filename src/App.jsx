@@ -6,6 +6,7 @@ import Product from "./components/Product";
 import Cart from "./components/Cart";
 import { CartProvider } from "./context/CartContext";
 import OrderConfirmation from "./components/OrderConfirmation";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/about" element={<div>About Us</div>} />
           <Route path="/contact" element={<div>Contact</div>} />
         </Routes>
+        <Footer />
       </Router>
     </CartProvider>
   );
