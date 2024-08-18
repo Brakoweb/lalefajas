@@ -48,6 +48,25 @@ a:hover {
   text-align: center;
 }
 
+.color-variants {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.color-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid #ddd;
+}
+
+.color-dot:hover {
+  border-color: #000;
+}
+
 .load-more-button {
   background-color: #ddd;
   color: rgb(0, 0, 0);

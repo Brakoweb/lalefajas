@@ -10,11 +10,19 @@ const query = `
         node {
           id
           title
-          description
-          images(first: 1) {
+          vendor
+          variants(first: 5) {
             edges {
               node {
-                src
+                id
+                title
+                image {
+                  src
+                }
+                selectedOptions {
+                  name
+                  value
+                }
               }
             }
           }
@@ -38,8 +46,12 @@ const ProductList = () => {
     try {
       const variables = { first: 10, after: cursor };
       const data = await graphQLClient.request(query, variables);
+      console.log(data);
 
-      const newProducts = data.products.edges.map((edge) => edge.node);
+      const newProducts = data.products.edges.map((edge) => ({
+        ...edge.node,
+        selectedVariant: edge.node.variants.edges[0]?.node || null, // Seleccionar la primera variante por defecto si existe
+      }));
 
       setProducts((prevProducts) => {
         // Eliminar productos duplicados basados en ID
@@ -72,31 +84,92 @@ const ProductList = () => {
     }
   };
 
+  const handleVariantChange = (productId, variantId) => {
+    setProducts((prevProducts) =>
+      prevProducts.map((product) =>
+        product.id === productId
+          ? {
+              ...product,
+              selectedVariant: product.variants.edges.find(
+                (variant) => variant.node.id === variantId
+              ).node,
+            }
+          : product
+      )
+    );
+  };
+
+  // Función para mapear colores específicos
+  const mapColor = (color) => {
+    switch (color.toLowerCase()) {
+      case "brown":
+        return "sienna";
+      case "blue":
+        return "cyan";
+      default:
+        return color.toLowerCase();
+    }
+  };
+
   return (
-    <div>
-      <h1>Products</h1>
-      <div className="product-list">
+    <div className="featured-products">
+      <h2>Productos Destacados</h2>
+      <div className="products-list">
         {products.map((product) => {
           const productId = product.id.split("/").pop(); // Extraer solo el ID numérico
+
+          // Crear un conjunto para almacenar colores únicos
+          const uniqueColors = new Set();
+
           return (
-            <Link
-              key={productId}
-              to={`/product/${productId}`}
-              className="product-link"
-            >
-              <div className="product-card">
-                {product.images.edges.length > 0 && (
-                  <img
-                    src={product.images.edges[0].node.src}
-                    alt={product.title}
-                    className="product-image"
-                  />
-                )}
-                <div className="product-details">
-                  <h2 className="product-title">{product.title}</h2>
-                </div>
+            <div key={productId} className="product-card">
+              <Link to={`/product/${productId}`} className="product-link">
+                <img
+                  src={
+                    product.selectedVariant?.image.src ||
+                    product.images.edges[0].node.src
+                  } // Usa la imagen de la variante seleccionada o la imagen principal
+                  alt={product.title}
+                  className="product-image"
+                />
+                <h3 className="product-title">{product.title}</h3>
+              </Link>
+              <div className="color-variants">
+                {product.variants.edges
+                  .filter((variant) => {
+                    const colorOption = variant.node.selectedOptions.find(
+                      (option) => option.name.toLowerCase() === "color"
+                    );
+                    if (
+                      colorOption &&
+                      !uniqueColors.has(colorOption.value.toLowerCase())
+                    ) {
+                      uniqueColors.add(colorOption.value.toLowerCase());
+                      return true;
+                    }
+                    return false;
+                  })
+                  .map((variant) => {
+                    const colorOption = variant.node.selectedOptions.find(
+                      (option) => option.name.toLowerCase() === "color"
+                    );
+                    return (
+                      <div
+                        key={variant.node.id}
+                        className="color-dot"
+                        style={{
+                          backgroundColor: colorOption
+                            ? mapColor(colorOption.value)
+                            : "#ccc", // Color por defecto si no existe opción de "Color"
+                        }}
+                        onClick={() => {
+                          handleVariantChange(product.id, variant.node.id);
+                        }}
+                      />
+                    );
+                  })}
               </div>
-            </Link>
+            </div>
           );
         })}
       </div>
