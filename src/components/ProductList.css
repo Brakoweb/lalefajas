@@ -84,3 +84,9 @@ a:hover {
 .load-more-button:hover {
   background-color: #0056b3;
 }
+
+.product-price {
+  font-size: 1.2em;
+  color: #333;
+  margin: 10px 0;
+}

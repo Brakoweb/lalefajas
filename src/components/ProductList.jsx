@@ -23,7 +23,17 @@ const query = `
                   name
                   value
                 }
+                price {
+                  amount
+                  currencyCode
+                }
               }
+            }
+          }
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
             }
           }
         }
@@ -46,7 +56,6 @@ const ProductList = () => {
     try {
       const variables = { first: 10, after: cursor };
       const data = await graphQLClient.request(query, variables);
-      console.log(data);
 
       const newProducts = data.products.edges.map((edge) => ({
         ...edge.node,
@@ -106,6 +115,14 @@ const ProductList = () => {
         return "sienna";
       case "blue":
         return "cyan";
+      case "negro":
+        return "black";
+      case "blanco":
+        return "white";
+      case "moka":
+        return "#6D3B07";
+      case "biege":
+        return "beige";
       default:
         return color.toLowerCase();
     }
@@ -113,7 +130,7 @@ const ProductList = () => {
 
   return (
     <div className="featured-products">
-      <h2>Productos Destacados</h2>
+      <h2>Catalogo</h2>
       <div className="products-list">
         {products.map((product) => {
           const productId = product.id.split("/").pop(); // Extraer solo el ID numérico
@@ -133,6 +150,10 @@ const ProductList = () => {
                   className="product-image"
                 />
                 <h3 className="product-title">{product.title}</h3>
+                <p className="product-price">
+                  {product.priceRange.minVariantPrice.amount}{" "}
+                  {product.priceRange.minVariantPrice.currencyCode}
+                </p>
               </Link>
               <div className="color-variants">
                 {product.variants.edges
@@ -175,7 +196,7 @@ const ProductList = () => {
       </div>
       {hasNextPage && (
         <button onClick={loadMore} className="load-more-button">
-          Load More
+          Ver Más
         </button>
       )}
     </div>
