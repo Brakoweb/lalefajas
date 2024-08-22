@@ -129,8 +129,8 @@ const ProductList = () => {
   };
 
   return (
-    <div className="featured-products">
-      <h2>Catalogo</h2>
+    <div>
+      <h2 className="products-list-title">Catalogo</h2>
       <div className="products-list">
         {products.map((product) => {
           const productId = product.id.split("/").pop(); // Extraer solo el ID numérico
@@ -194,11 +194,9 @@ const ProductList = () => {
           );
         })}
       </div>
-      {hasNextPage && (
-        <button onClick={loadMore} className="load-more-button">
-          Ver Más
-        </button>
-      )}
+      <div className="load-more-button">
+        {hasNextPage && <button onClick={loadMore}>Ver Más</button>}
+      </div>
     </div>
   );
 };
