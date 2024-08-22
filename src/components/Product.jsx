@@ -79,7 +79,6 @@ const Product = () => {
   const handleVariantChange = (optionName, value) => {
     if (!product) return;
 
-    // Copiamos las opciones seleccionadas actuales
     const selectedOptions = selectedVariant.selectedOptions.map((option) => {
       if (option.name === optionName) {
         return { ...option, value };
@@ -87,7 +86,6 @@ const Product = () => {
       return option;
     });
 
-    // Encontramos la variante que coincide con las opciones seleccionadas
     const variant = product.variants.edges.find((variant) =>
       variant.node.selectedOptions.every(
         (option) =>
@@ -114,16 +112,57 @@ const Product = () => {
     }
   };
 
+  const mapColor = (color) => {
+    switch (color.toLowerCase()) {
+      case "brown":
+        return "sienna";
+      case "blue":
+        return "cyan";
+      case "negro":
+        return "black";
+      case "blanco":
+        return "white";
+      case "moka":
+        return "#6D3B07";
+      case "biege":
+        return "beige";
+      default:
+        return color.toLowerCase();
+    }
+  };
+
   if (!product || !selectedVariant) {
     return <div>Loading...</div>;
   }
 
+  const sizes = [
+    ...new Set(
+      product.variants.edges
+        .map(
+          (variant) =>
+            variant.node.selectedOptions.find((o) => o.name === "Size")?.value
+        )
+        .filter((v) => v !== undefined)
+    ),
+  ];
+
+  const colors = [
+    ...new Set(
+      product.variants.edges
+        .map(
+          (variant) =>
+            variant.node.selectedOptions.find((o) => o.name === "Color")?.value
+        )
+        .filter((v) => v !== undefined)
+    ),
+  ];
+
   return (
     <div className="product">
-      <h1>{product.title}</h1>
+      <h1 className="product-title">{product.title}</h1>
 
       <div className="product-carousel">
-        <Carousel showArrows={true} showThumbs={true} infiniteLoop={true}>
+        <Carousel showArrows={true} showThumbs={false} infiniteLoop={true}>
           {selectedVariant.image ? (
             <img src={selectedVariant.image.src} alt={product.title} />
           ) : (
@@ -136,50 +175,63 @@ const Product = () => {
         </Carousel>
       </div>
       <div className="product-description">
-        <p>{product.description}</p>
-        <p>
-          Price: {selectedVariant.price.amount}{" "}
-          {selectedVariant.price.currencyCode}
-        </p>
-        <div className="product-variants">
-          {product.variants.edges[0].node.selectedOptions.map((option) => (
-            <div key={option.name}>
-              <label>{option.name}:</label>
-              <select
-                value={
-                  selectedVariant.selectedOptions.find(
-                    (o) => o.name === option.name
-                  ).value
-                }
-                onChange={(e) =>
-                  handleVariantChange(option.name, e.target.value)
-                }
-              >
-                {[
-                  ...new Set(
-                    product.variants.edges
-                      .map(
-                        (variant) =>
-                          variant.node.selectedOptions.find(
-                            (o) => o.name === option.name
-                          )?.value
-                      )
-                      .filter((v) => v !== undefined)
-                  ),
-                ].map((value) => (
-                  <option key={value} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </select>
-            </div>
-          ))}
+        <div className="product-price">
+          {selectedVariant.price.currencyCode} {selectedVariant.price.amount}
         </div>
+
+        <div className="product-variants">
+          <div className="variant-section">
+            <label>Size:</label>
+            <div className="variant-options">
+              {sizes.map((size) => (
+                <button
+                  key={size}
+                  className={`variant-button ${
+                    selectedVariant.selectedOptions.find(
+                      (o) => o.name === "Size"
+                    ).value === size
+                      ? "active"
+                      : ""
+                  }`}
+                  onClick={() => handleVariantChange("Size", size)}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="variant-section">
+            <label>Color:</label>
+            <div className="variant-options">
+              {colors.map((color) => (
+                <div
+                  key={color}
+                  className={`color-dot ${
+                    selectedVariant.selectedOptions.find(
+                      (o) => o.name === "Color"
+                    ).value === color
+                      ? "active"
+                      : ""
+                  }`}
+                  style={{
+                    backgroundColor: mapColor(color),
+                  }}
+                  onClick={() => handleVariantChange("Color", color)}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
         {!selectedVariant.availableForSale ? (
           <p className="out-of-stock">Agotado</p>
         ) : (
-          <button onClick={handleAddToCart}>Add to Cart</button>
+          <button className="add-to-cart" onClick={handleAddToCart}>
+            Add to Cart
+          </button>
         )}
+        <p>{product.description}</p>
       </div>
     </div>
   );
