@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import { createCheckout } from "../api/checkout";
 
 export const CartContext = createContext();
 
@@ -41,9 +42,29 @@ export const CartProvider = ({ children }) => {
     setCart([]);
   };
 
+  const initiateCheckout = async () => {
+    try {
+      const url = await createCheckout(cart);
+      if (url) {
+        window.location.href = url; //redirige al checkout de shopify
+      } else {
+        console.error("Checkout URL not found.");
+      }
+    } catch (error) {
+      console.error("Error initiating checkout:", error);
+    }
+  };
+
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, updateQuantity, removeFromCart, clearCart }}
+      value={{
+        cart,
+        addToCart,
+        updateQuantity,
+        removeFromCart,
+        clearCart,
+        initiateCheckout,
+      }}
     >
       {children}
     </CartContext.Provider>

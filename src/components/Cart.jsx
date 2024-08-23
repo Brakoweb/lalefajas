@@ -3,7 +3,7 @@ import { CartContext } from "../context/CartContext";
 import "./Cart.css";
 
 const Cart = () => {
-  const { cart, removeFromCart, updateQuantity, clearCart } =
+  const { cart, removeFromCart, updateQuantity, clearCart, initiateCheckout } =
     useContext(CartContext);
 
   const handleQuantityChange = (id, quantity) => {
@@ -73,7 +73,11 @@ const Cart = () => {
       <button className="clear-cart-button" onClick={clearCart}>
         Clear Cart
       </button>
-      <button className="checkout-button" disabled={cart.length === 0}>
+      <button
+        className="checkout-button"
+        disabled={cart.length === 0}
+        onClick={initiateCheckout} // Asegúrate de que esté apuntando a la función correcta
+      >
         Checkout{" "}
         <img src="/checkout.png" alt="checkout" className="checkout-icon" />
       </button>
