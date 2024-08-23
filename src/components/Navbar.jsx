@@ -64,11 +64,7 @@ const Navbar = () => {
         <Toolbar className="navbar">
           <div className="nav-logo">
             <Link to="/">
-              <img
-                src="https://lalefajas.com/cdn/shop/files/Recurso_7.png"
-                alt="Logo"
-                className="logo-image"
-              />
+              <img src="public/logo.png" alt="Logo" className="logo-image" />
             </Link>
           </div>
           <div className="nav-icons">

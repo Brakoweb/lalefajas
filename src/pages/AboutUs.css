@@ -1,0 +1,54 @@
+.about-us {
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+  background-color: #fff;
+}
+
+.about-us-header {
+  text-align: center;
+}
+
+.about-us-header h1 {
+  font-size: 2.5em;
+  color: #333;
+  background-color: #fff;
+  margin: 0;
+}
+
+.about-us-image {
+  width: 70%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.about-us-content {
+  background-color: #f7f7f7;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.about-us-section {
+  margin-bottom: 30px;
+}
+
+.about-us-section h2 {
+  font-size: 1.8em;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.about-us-section p,
+.about-us-section ul {
+  font-size: 1.1em;
+  color: #666;
+}
+
+.about-us-section ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.about-us-section li {
+  margin-bottom: 10px;
+}
