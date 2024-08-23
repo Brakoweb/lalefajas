@@ -16,17 +16,21 @@ const AboutUs = () => {
         <section className="about-us-section">
           <h2>Hola! ❤️</h2>
           <p>
-            Hola! soy Arleth. Puede que me conozcas por mis redes como Lale
-            correa. Escribeme como puedo ayudarte!
+            Hola! soy Arleth. Puede que me conozcas como salgo en todas mis
+            redes como Lale Correa, trabajo con cirugías estéticas y me he
+            sometido a algunas recientemente, trabaje mucho en encontrar la faja
+            perfecta , cuando la encontre, dije por que no compartirla con
+            ustedes!! y aqui esta de mi para ti!. Escribeme como puedo ayudarte!
           </p>
         </section>
         <section className="about-us-section">
           <h2>Mision</h2>
           <p>
-            Mi misión en LaleFajas es empoderarte en tu camino hacia el
-            bienestar y la confianza personal. Inspirada por mi propia
+            Mi misión en <strong>LaleFajas</strong> es empoderarte en tu camino
+            hacia el bienestar y la confianza personal. Inspirada por mi propia
             experiencia, me he dedicado a compartir soluciones y herramientas
-            que te ayudarán a reflejar tu belleza interior en el exterior.
+            que te ayudarán a reflejar tu belleza interior en el exterior.{" "}
+            <br /> <br />
             Quiero que sepas que alcanzar tus sueños es posible y estoy aquí
             para guiarte. Únete a esta comunidad de apoyo que he creado pensando
             en ti. Soy Lale Correa, y te invito con todo mi cariño a descubrir
