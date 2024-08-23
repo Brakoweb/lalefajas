@@ -71,11 +71,7 @@ const Contact = () => {
           rel="noopener noreferrer"
           className="whatsapp-button"
         >
-          <img
-            src="/public/whatsapp.png"
-            alt="WhatsApp"
-            className="whatsapp-icon"
-          />
+          <img src="/whatsapp.png" alt="WhatsApp" className="whatsapp-icon" />
           Escribenos al WhatsApp
         </a>
       </div>

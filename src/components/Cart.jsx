@@ -1,71 +1,82 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 import "./Cart.css";
-import { createCheckout } from "../api/checkout";
 
 const Cart = () => {
-  const { cart, decreaseQuantity, removeFromCart, clearCart } =
+  const { cart, removeFromCart, updateQuantity, clearCart } =
     useContext(CartContext);
-  const [loading, setLoading] = useState(false);
 
-  const handleCheckout = async () => {
-    setLoading(true);
-    const checkoutUrl = await createCheckout(cart);
-    setLoading(false);
-    if (checkoutUrl) {
-      window.location.href = checkoutUrl; // Redirigir al checkout de Shopify
+  const handleQuantityChange = (id, quantity) => {
+    if (quantity < 1) {
+      removeFromCart(id);
     } else {
-      alert("There was an issue with the checkout. Please try again.");
+      updateQuantity(id, quantity);
     }
-  };
-
-  const handleRemoveItem = (productId) => {
-    decreaseQuantity(productId);
   };
 
   return (
     <div className="cart">
-      <h1>Tu Selección</h1>
-      {cart.length === 0 ? (
-        <p>Tu carrito está vacío</p>
-      ) : (
-        <div>
-          <ul>
-            {cart.map((item) => (
-              <li key={item.id} className="cart-item">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="cart-item-image"
+      <h1>Your Cart</h1>
+      <ul>
+        {cart.map((item) => (
+          <li key={item.id} className="cart-item">
+            <img
+              src={item.image}
+              alt={item.title}
+              className="cart-item-image"
+            />
+            <div>
+              <h2>{item.title}</h2>
+              <p>
+                {item.currency} {item.price}
+              </p>
+              <div className="quantity-controls">
+                <button
+                  className="quantityBtn"
+                  onClick={() =>
+                    handleQuantityChange(item.id, item.quantity - 1)
+                  }
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  value={item.quantity}
+                  min="1"
+                  onChange={(e) =>
+                    handleQuantityChange(item.id, parseInt(e.target.value))
+                  }
                 />
-                <div>
-                  <h2>{item.title}</h2>
-                  <p>
-                    {item.price} {item.currency}
-                  </p>
-                  <p>Quantity: {item.quantity}</p>
-                  <button onClick={() => handleRemoveItem(item.id)}>
-                    Reduce Quantity
-                  </button>
-                  <button onClick={() => removeFromCart(item.id)}>
-                    Remove
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <button
-            onClick={handleCheckout}
-            disabled={loading}
-            className="checkout-button"
-          >
-            {loading ? "Processing..." : "Checkout"}
-          </button>
-          <button onClick={clearCart} className="clear-cart-button">
-            Clear Cart
-          </button>
-        </div>
-      )}
+                <button
+                  className="quantityBtn"
+                  onClick={() =>
+                    handleQuantityChange(item.id, item.quantity + 1)
+                  }
+                >
+                  +
+                </button>
+                <button
+                  onClick={() => removeFromCart(item.id)}
+                  className="remove-button"
+                >
+                  <img
+                    src="/trash-icon.png"
+                    alt="Remove"
+                    className="remove-icon"
+                  />
+                </button>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <button className="clear-cart-button" onClick={clearCart}>
+        Clear Cart
+      </button>
+      <button className="checkout-button" disabled={cart.length === 0}>
+        Checkout{" "}
+        <img src="/checkout.png" alt="checkout" className="checkout-icon" />
+      </button>
     </div>
   );
 };

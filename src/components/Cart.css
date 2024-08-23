@@ -48,6 +48,7 @@
   padding: 10px 20px;
   border: none;
   cursor: pointer;
+  display: none;
 }
 
 .clear-cart-button:hover {
@@ -57,10 +58,20 @@
 .checkout-button {
   background-color: #cdb00d;
   color: #333;
-  padding: 10px 20px;
   border: none;
   cursor: pointer;
-  margin-right: 10px;
+  margin: 10px auto;
+  width: 100%;
+  font-size: 20px;
+  position: relative;
+}
+
+.checkout-icon {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 16px;
+  right: calc(auto - 160px);
 }
 
 .checkout-button:disabled {
@@ -70,4 +81,61 @@
 
 .checkout-button:hover:not(:disabled) {
   background-color: #af970b;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+}
+
+.quantityBtn {
+  background-color: #cdb00d;
+}
+
+.quantity-controls button {
+  color: #333;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+.quantity-controls .quantityBtn:hover {
+  background-color: #af970b;
+}
+
+.quantity-controls .remove-button:hover {
+  background-color: darkred;
+}
+
+.quantity-controls input {
+  width: 50px;
+  text-align: center;
+  font-size: 16px;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.remove-button {
+  background-color: red;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+}
+
+.remove-icon {
+  width: 20px;
+  height: 20px;
+  filter: invert(100%); /* Esto hace que el icono sea blanco si es necesario */
+}
+
+.remove-button:hover .remove-icon {
+  filter: invert(75%);
 }

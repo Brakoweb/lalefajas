@@ -5,11 +5,7 @@ const AboutUs = () => {
   return (
     <div className="about-us">
       <div className="about-us-header">
-        <img
-          src="/public/AboutUs.jpg"
-          alt="About Us"
-          className="about-us-image"
-        />
+        <img src="/AboutUs.jpg" alt="About Us" className="about-us-image" />
         <h1>Acerca de Lale</h1>
       </div>
       <div className="about-us-content">
