@@ -12,6 +12,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { CartContext } from "../context/CartContext";
+import SearchBar from "../components/SearchBar";
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -89,6 +90,7 @@ const Navbar = () => {
           </div>
         </Toolbar>
       </AppBar>
+      <SearchBar />
       <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
         {menuItems}
       </Drawer>
