@@ -62,6 +62,15 @@ const Navbar = () => {
     <>
       <AppBar position="static">
         <Toolbar className="navbar">
+          <IconButton
+            edge="end"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleDrawer(true)}
+            className="menu-button"
+          >
+            <MenuIcon />
+          </IconButton>
           <div className="nav-logo">
             <Link to="/">
               <img src="public/logo.png" alt="Logo" className="logo-image" />
@@ -74,20 +83,11 @@ const Navbar = () => {
                 <span className="cart-count">{totalItems}</span>
               )}
             </Link>
-            <IconButton
-              edge="end"
-              color="inherit"
-              aria-label="menu"
-              onClick={toggleDrawer(true)}
-              className="menu-button"
-            >
-              <MenuIcon />
-            </IconButton>
           </div>
         </Toolbar>
       </AppBar>
       <SearchBar />
-      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
         {menuItems}
       </Drawer>
     </>
