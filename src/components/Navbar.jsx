@@ -8,9 +8,14 @@ import {
   List,
   ListItem,
   ListItemText,
+  rgbToHex,
 } from "@mui/material";
+import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
+import ImportContactsIcon from "@mui/icons-material/ImportContacts";
+import InfoIcon from "@mui/icons-material/Info";
+import ContactMailIcon from "@mui/icons-material/ContactMail";
+import Home from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { CartContext } from "../context/CartContext";
 import SearchBar from "../components/SearchBar";
 import "./Navbar.css";
@@ -39,19 +44,24 @@ const Navbar = () => {
       className="menu-items"
     >
       <List>
-        <ListItem component={Link} to="/">
+        <ListItem component={Link} to="/" className="menu-item">
+          <Home />
           <ListItemText primary="Inicio" />
         </ListItem>
-        <ListItem component={Link} to="/products">
+        <ListItem component={Link} to="/products" className="menu-item">
+          <ImportContactsIcon />
           <ListItemText primary="Catalogo" />
         </ListItem>
-        <ListItem component={Link} to="/contact">
+        <ListItem component={Link} to="/contact" className="menu-item">
+          <ContactMailIcon />
           <ListItemText primary="Contactame" />
         </ListItem>
-        <ListItem component={Link} to="/about">
+        <ListItem component={Link} to="/about" className="menu-item">
+          <InfoIcon />
           <ListItemText primary="Acerca de Lale" />
         </ListItem>
-        <ListItem component={Link} to="/cart">
+        <ListItem component={Link} to="/cart" className="menu-item">
+          <ShoppingBagIcon />
           <ListItemText primary={`Cart (${cart.length})`} />
         </ListItem>
       </List>
@@ -78,7 +88,7 @@ const Navbar = () => {
           </div>
           <div className="nav-icons">
             <Link to="/cart" className="cart-icon">
-              <ShoppingCartIcon />
+              <ShoppingBagIcon />
               {cart.length > 0 && (
                 <span className="cart-count">{totalItems}</span>
               )}
@@ -87,7 +97,16 @@ const Navbar = () => {
         </Toolbar>
       </AppBar>
       <SearchBar />
-      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={toggleDrawer(false)}
+        PaperProps={{
+          sx: {
+            backgroundColor: "#fff",
+          },
+        }}
+      >
         {menuItems}
       </Drawer>
     </>

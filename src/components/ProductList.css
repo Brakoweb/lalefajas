@@ -1,3 +1,8 @@
+.featured-products {
+  width: 100%;
+  padding: 0;
+}
+
 .products-list-title {
   text-align: center;
   background-color: #fff;
@@ -8,7 +13,7 @@
 
 .products-list {
   text-align: center;
-  padding: 20px;
+  padding: 20px 0;
   background-color: rgba(0, 0, 0, 0.5);
 }
 

@@ -23,6 +23,7 @@
 .cart-icon {
   position: relative;
   margin-right: 16px;
+  margin-top: 10px;
   color: black;
   text-decoration: none;
 }
@@ -40,6 +41,22 @@
 
 .menu-button {
   color: white;
+}
+
+.menu-items {
+  padding: 10px;
+}
+
+.menu-items a {
+  text-decoration: none;
+}
+
+.menu-item {
+  color: #333;
+}
+
+.menu-item span {
+  padding: 0 0 0 10px;
 }
 
 /* Responsive design */
