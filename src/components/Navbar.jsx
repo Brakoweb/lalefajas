@@ -15,6 +15,7 @@ import ImportContactsIcon from "@mui/icons-material/ImportContacts";
 import InfoIcon from "@mui/icons-material/Info";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import Home from "@mui/icons-material/Home";
+import StraightenIcon from "@mui/icons-material/Straighten";
 import MenuIcon from "@mui/icons-material/Menu";
 import { CartContext } from "../context/CartContext";
 import SearchBar from "../components/SearchBar";
@@ -51,6 +52,10 @@ const Navbar = () => {
         <ListItem component={Link} to="/products" className="menu-item">
           <ImportContactsIcon />
           <ListItemText primary="Catalogo" />
+        </ListItem>
+        <ListItem component={Link} to="/sizes" className="menu-item">
+          <StraightenIcon />
+          <ListItemText primary="Tallas" />
         </ListItem>
         <ListItem component={Link} to="/contact" className="menu-item">
           <ContactMailIcon />

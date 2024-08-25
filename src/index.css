@@ -16,7 +16,6 @@ a {
 body {
   margin: 0;
   min-width: 320px;
-  min-height: 160vh;
   background-color: rgba(14, 27, 77, 1);
   background-image: url("./assets/starts.png");
   background-size: 300%;

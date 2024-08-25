@@ -1,0 +1,100 @@
+.menu-sizes {
+  background-color: #ddd;
+  margin: 0;
+  padding: 0 0 20px 0;
+  text-align: center;
+}
+
+.menu-sizes h1 {
+  padding: 0;
+  margin: 0;
+}
+
+.menu-sizes img {
+  width: 25%;
+  border: 2px solid black;
+}
+
+.input-container {
+  background-color: #ddd;
+}
+
+.imgMetricSystem {
+  width: 100%;
+}
+
+.input-options {
+  background-color: #ddd;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.input-options img {
+  width: 100%;
+}
+
+.input-options select,
+.input-options input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin: 10px 0;
+  transition: border-color 0.3s;
+  margin: 5px 0 10px 15px;
+}
+
+.input-options select:focus,
+input:focus {
+  border-color: rgb(192, 192, 65);
+  outline: none;
+}
+
+.Btn-container {
+  margin: 0 auto;
+  padding: 10px;
+  text-align: center;
+}
+
+.Btn-container button {
+  margin: 0 5px;
+}
+
+button.calcBtn {
+  background-color: rgb(192, 192, 65);
+  color: #000;
+  font-size: 18px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button.calcBtn:hover {
+  background-color: rgb(192, 192, 65);
+}
+
+button.calcBtn:focus {
+  outline: 2px solid rgb(192, 192, 65);
+}
+
+button.backBtn {
+  background-color: #ff4c4c;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  margin-top: 20px;
+}
+
+button.backBtn:hover {
+  background-color: #ff0000;
+}
+
+button.backBtn:focus {
+  outline: 2px solid #ff0000;
+}

@@ -7,6 +7,7 @@ import Contact from "./pages/Contact";
 import ProductList from "./components/ProductList";
 import Product from "./components/Product";
 import Cart from "./components/Cart";
+import Sizes from "./pages/Sizes";
 import { CartProvider } from "./context/CartContext";
 import OrderConfirmation from "./components/OrderConfirmation";
 import Footer from "./components/Footer";
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/sizes" element={<Sizes />} />
         </Routes>
         <Footer />
       </Router>
