@@ -88,8 +88,8 @@ const GirdleApp = ({ setSelectedApp }) => {
       setSize(calculatedSize);
 
       MySwal.fire({
-        title: `Size: ${calculatedSize}`,
-        text: "Here is your girdle size",
+        title: `Talla: ${calculatedSize}`,
+        text: "Esta es tu talla",
         imageUrl: "/calc/size.png",
         imageWidth: 400,
         imageHeight: 200,

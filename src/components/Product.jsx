@@ -2,9 +2,14 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { graphQLClient } from "../api";
 import { Carousel } from "react-responsive-carousel";
+import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./Product.css";
 import { CartContext } from "../context/CartContext";
+import GirdleApp from "./calc/GirdleApp";
+import ChinGirdleApp from "./calc/ChinGirdleApp";
+import BraSizeCalculator from "./calc/BraSizeCalculator";
 
 const query = `
   query ($id: ID!) {
@@ -19,6 +24,7 @@ const query = `
           }
         }
       }
+      tags
       priceRange {
         minVariantPrice {
           amount
@@ -75,6 +81,10 @@ const Product = () => {
   if (!product) {
     return <div>Loading...</div>;
   }
+
+  const calculadoraTag = product.tags.find((tag) =>
+    ["calculadora 1", "calculadora 2", "calculadora 3"].includes(tag)
+  );
 
   const handleVariantChange = (optionName, value) => {
     if (!product) return;
@@ -223,7 +233,28 @@ const Product = () => {
             </div>
           </div>
         </div>
-
+        {calculadoraTag &&
+          (calculadoraTag === "calculadora 1" ||
+            calculadoraTag === "calculadora 2" ||
+            calculadoraTag === "calculadora 3") && (
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <h3>
+                  Calcula tu Talla{" "}
+                  <img
+                    src="/size-icon.png"
+                    alt="size-icon"
+                    className="size-icon"
+                  />
+                </h3>
+              </AccordionSummary>
+              <AccordionDetails>
+                {calculadoraTag === "calculadora 1" && <GirdleApp />}
+                {calculadoraTag === "calculadora 2" && <ChinGirdleApp />}
+                {calculadoraTag === "calculadora 3" && <BraSizeCalculator />}
+              </AccordionDetails>
+            </Accordion>
+          )}
         {!selectedVariant.availableForSale ? (
           <p className="out-of-stock">Agotado</p>
         ) : (

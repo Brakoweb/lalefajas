@@ -30,8 +30,8 @@ const BraSizeCalculator = ({ setSelectedApp }) => {
       setSize(calculatedSize);
 
       MySwal.fire({
-        title: `Size: ${calculatedSize}`,
-        text: "Here is your bra size",
+        title: `Talla: ${calculatedSize}`,
+        text: "Esta es tu talla de Bra",
         imageUrl: "/calc/size.png",
         imageWidth: 400,
         imageHeight: 200,
