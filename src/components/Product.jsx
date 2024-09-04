@@ -60,6 +60,8 @@ const Product = () => {
   const [product, setProduct] = useState(null);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const { addToCart } = useContext(CartContext);
+  const [showMessage, setShowMessage] = useState(false); // Estado para mostrar el mensaje
+  const [isAdding, setIsAdding] = useState(false); // Estado para deshabilitar el botón
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -111,6 +113,9 @@ const Product = () => {
 
   const handleAddToCart = () => {
     if (selectedVariant) {
+      setIsAdding(true); // Deshabilitar el botón
+      setShowMessage(true); // Mostrar el mensaje
+
       addToCart({
         id: selectedVariant.id,
         title: `${product.title} (${selectedVariant.title})`,
@@ -119,6 +124,11 @@ const Product = () => {
         image: selectedVariant.image?.src || product.images.edges[0]?.node.src,
         quantity: 1,
       });
+
+      setTimeout(() => {
+        setShowMessage(false); // Ocultar el mensaje después de 3 segundos
+        setIsAdding(false); // Habilitar el botón
+      }, 2000);
     }
   };
 
@@ -170,6 +180,10 @@ const Product = () => {
   return (
     <div className="product">
       <h1 className="product-title">{product.title}</h1>
+
+      {showMessage && (
+        <div className="added-to-cart-message">Agregando al carrito...</div>
+      )}
 
       <div className="product-carousel">
         <Carousel showArrows={true} showThumbs={false} infiniteLoop={true}>
@@ -258,8 +272,12 @@ const Product = () => {
         {!selectedVariant.availableForSale ? (
           <p className="out-of-stock">Agotado</p>
         ) : (
-          <button className="add-to-cart" onClick={handleAddToCart}>
-            Add to Cart
+          <button
+            className="add-to-cart"
+            onClick={handleAddToCart}
+            disabled={isAdding} // Deshabilitar el botón mientras se muestra el mensaje
+          >
+            {isAdding ? "Agregando..." : "Agregar al carrito"}
           </button>
         )}
         <p>{product.description}</p>
