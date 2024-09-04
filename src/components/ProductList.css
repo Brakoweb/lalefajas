@@ -28,6 +28,14 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.product-card img[src*="placeholder"] {
+  opacity: 0.5; /* Placeholder con menor opacidad */
+}
+
+.product-card img.loaded {
+  opacity: 1;
+}
+
 .products-list .product-title {
   font-size: 1.2em;
   margin: 0;

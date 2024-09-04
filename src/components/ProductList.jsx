@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { graphQLClient } from "../api";
 import "./ProductList.css";
+import placeholderImage from "../assets/placeholder.png"; // imagen de placeholder
 
 const query = `
   query($first: Int!, $after: String) {
@@ -51,6 +52,7 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [cursor, setCursor] = useState(null);
   const [hasNextPage, setHasNextPage] = useState(true);
+  const [loadingImages, setLoadingImages] = useState({});
 
   const fetchProducts = async (cursor = null) => {
     try {
@@ -128,6 +130,13 @@ const ProductList = () => {
     }
   };
 
+  const handleImageLoad = (productId) => {
+    setLoadingImages((prev) => ({
+      ...prev,
+      [productId]: true,
+    }));
+  };
+
   return (
     <div>
       <h2 className="products-list-title">Catalogo</h2>
@@ -143,11 +152,14 @@ const ProductList = () => {
               <Link to={`/product/${productId}`} className="product-link">
                 <img
                   src={
-                    product.selectedVariant?.image.src ||
-                    product.images.edges[0].node.src
+                    loadingImages[productId]
+                      ? product.selectedVariant?.image.src ||
+                        product.images.edges[0].node.src
+                      : placeholderImage
                   } // Usa la imagen de la variante seleccionada o la imagen principal
                   alt={product.title}
                   className="product-image"
+                  onLoad={() => handleImageLoad(productId)}
                 />
                 <h3 className="product-title">{product.title}</h3>
                 <p className="product-price">
